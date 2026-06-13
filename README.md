@@ -37,7 +37,7 @@ cp .env.example .env
 Suba RabbitMQ e os bancos no Windows PowerShell:
 
 ```powershell
-.\scripts\docker-up.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\docker-up.ps1
 ```
 
 Ou suba diretamente pelo Docker Compose:
@@ -74,13 +74,35 @@ senha: fcg123
 
 ## Kubernetes
 
+Pre-requisitos:
+
+- `kubectl` instalado.
+- Um cluster Kubernetes local iniciado.
+- Um contexto ativo no kubeconfig.
+
 Aplicar tudo:
+
+No Windows PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\k8s-apply.ps1
+```
+
+Em Linux, macOS ou Git Bash:
 
 ```bash
 ./scripts/k8s-apply.sh
 ```
 
 Remover tudo:
+
+No Windows PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\k8s-delete.ps1
+```
+
+Em Linux, macOS ou Git Bash:
 
 ```bash
 ./scripts/k8s-delete.sh
@@ -91,6 +113,8 @@ Verificar recursos:
 ```bash
 kubectl get all -n fcg
 ```
+
+Se o `kubectl` tentar acessar `http://localhost:8080`, nao ha contexto Kubernetes ativo. Inicie um cluster local, valide com `kubectl config current-context` e `kubectl cluster-info`, ou veja [docs/kubernetes.md](docs/kubernetes.md).
 
 ## Observacoes
 

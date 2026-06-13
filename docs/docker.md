@@ -29,7 +29,7 @@ cp .env.example .env
 No Windows PowerShell:
 
 ```powershell
-.\scripts\docker-up.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\docker-up.ps1
 ```
 
 Em Linux, macOS ou Git Bash:
@@ -49,7 +49,7 @@ docker compose up -d
 No Windows PowerShell:
 
 ```powershell
-.\scripts\docker-down.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\docker-down.ps1
 ```
 
 Em Linux, macOS ou Git Bash:
