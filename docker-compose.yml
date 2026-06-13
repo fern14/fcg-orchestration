@@ -1,0 +1,78 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: fcg-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-fcg}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-fcg123}
+    networks:
+      - fcg-network
+
+  users-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: fcg-users-db
+    ports:
+      - "14331:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:-Fcg@12345}
+      MSSQL_PID: ${SQLSERVER_PID:-Developer}
+    volumes:
+      - users_db_data:/var/opt/mssql
+    networks:
+      - fcg-network
+
+  catalog-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: fcg-catalog-db
+    ports:
+      - "14332:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:-Fcg@12345}
+      MSSQL_PID: ${SQLSERVER_PID:-Developer}
+    volumes:
+      - catalog_db_data:/var/opt/mssql
+    networks:
+      - fcg-network
+
+  payments-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: fcg-payments-db
+    ports:
+      - "14333:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:-Fcg@12345}
+      MSSQL_PID: ${SQLSERVER_PID:-Developer}
+    volumes:
+      - payments_db_data:/var/opt/mssql
+    networks:
+      - fcg-network
+
+  notifications-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: fcg-notifications-db
+    ports:
+      - "14334:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SQLSERVER_SA_PASSWORD:-Fcg@12345}
+      MSSQL_PID: ${SQLSERVER_PID:-Developer}
+    volumes:
+      - notifications_db_data:/var/opt/mssql
+    networks:
+      - fcg-network
+
+networks:
+  fcg-network:
+    driver: bridge
+
+volumes:
+  users_db_data:
+  catalog_db_data:
+  payments_db_data:
+  notifications_db_data:

@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: payments-db-secret
+  namespace: fcg
+type: Opaque
+stringData:
+  ACCEPT_EULA: "Y"
+  MSSQL_SA_PASSWORD: Fcg@12345
+  MSSQL_PID: Developer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payments-db
+  namespace: fcg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-db
+  template:
+    metadata:
+      labels:
+        app: payments-db
+    spec:
+      containers:
+        - name: payments-db
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          ports:
+            - containerPort: 1433
+          envFrom:
+            - secretRef:
+                name: payments-db-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-db
+  namespace: fcg
+spec:
+  selector:
+    app: payments-db
+  ports:
+    - port: 1433
+      targetPort: 1433
