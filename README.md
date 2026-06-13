@@ -23,17 +23,30 @@ Este repositorio centraliza:
 
 ## Subindo infraestrutura local
 
+Pre-requisitos:
+
+- Docker Desktop iniciado no Windows, usando Linux containers/WSL 2.
+- Docker Compose v2 disponivel pelo comando `docker compose`.
+
 Copie o arquivo de exemplo:
 
 ```bash
 cp .env.example .env
 ```
 
-Suba RabbitMQ e os bancos:
+Suba RabbitMQ e os bancos no Windows PowerShell:
+
+```powershell
+.\scripts\docker-up.ps1
+```
+
+Ou suba diretamente pelo Docker Compose:
 
 ```bash
 docker compose up -d
 ```
+
+Se aparecer erro com `dockerDesktopLinuxEngine` ou `//./pipe/dockerDesktopLinuxEngine`, o Docker Desktop/engine Linux nao esta acessivel. Abra o Docker Desktop, aguarde o engine iniciar, valide com `docker info` e tente novamente. Veja mais detalhes em [docs/docker.md](docs/docker.md).
 
 RabbitMQ Management:
 
